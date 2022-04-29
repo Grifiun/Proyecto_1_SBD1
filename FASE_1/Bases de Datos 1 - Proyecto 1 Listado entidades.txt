@@ -1,0 +1,521 @@
+Manejo de clientes, boletos, ganancias, vuelos
+
+Aerolinea
+	- id_aerolinea PK
+	- nombre_aerolinea
+	- ubicacion (pais, internacional, etc)
+	- anio_fundacion
+	--- Aeropuertos
+	
+Aeropuerto
+	- id_aeropuerto PK
+	- ubicacion (ciudad, etc)
+	- Aerolinea FK
+	--- Puertas_Disponibles
+
+Puerta_Defecto
+	- id_puerta_defecto PK
+	- Aeropuerto FK
+
+Clase
+	- id_clase PK
+	- nombre_clase (si, no)
+	- tipo_filas
+	- tarifas_cambios
+	- maleta_documentada (cantidad)
+	- peso_maleta_documentada 
+	- maleta_mano (0, 1, 2)
+	- con_eleccion_asiento
+	- con_cambios_permitidos (si, no)
+	- con_devoluciones (si, no)
+	- porcentaje_descuento_ida_vuelta
+	- descripcion_clase
+	--- precios de clase (M)
+	
+Precio_Clase
+	- id_precio_clase PK
+	- Clase FK
+	- disponibilidad_critica (momento donde comienzan a aumentar los precios)
+	- tipo_pasajero (niño, adulto)
+	- precio_normal
+	- porcentaje_extra
+
+Alimento
+	- id_alimento PK
+	- nombre_alimento
+	- descripcion_alimento
+	- tipo_menu (los gratis cuestan 0 cada 2 hr)
+	- tipo_alimento
+	- costo
+	+ subtipo_alimento
+	--- Ingredientes
+
+Ingrediente
+	- nombre_ingrediente PK
+	- tipo_ingrediente
+	- costo_ingrediente
+	- descripcion_ingrediente
+	
+Alimento_Ingrediente
+	- Alimento FK PK
+	- Ingrediente FK PK
+	- cantidad_a_usar
+
+Alimento_Clase
+	- id_alimento_clase PK
+	- Alimento FK
+	- Clase FK	
+
+Tipo_Avion
+	- tipo_avion PK
+	
+Avion
+	- id_avion PK
+	- TipoAvion FK
+	- fecha_adquisicion
+	+ fecha_primer_vuelo (opcional por los aviones que aun no vuelan)
+	- fecha_ultimo_mantenimiento
+	- estado (disponible, habilitado, mantenimiento, retirado, etc)
+	--- asientos_totales (para cada clase)
+	
+Avion_Asientos_Totales_Por_Clase (asientos totales para cada clase)
+	- id_asientos_por_clase_avion PK
+	- Avion FK
+	+ Clase FK (primera clase, etc, si esta vacio seran los tripulantes principales)
+	- cantidad_filas
+	- asientos_por_fila
+	- cantidad_total_asientos_por_clase
+	
+Alimento_Avion
+	- id_alimento_avion PK
+	- Alimentos_Clase FK
+	- Avion FK
+	- precio	
+
+Avion_Asientos_Registro_Unidad (registro de la existencia de asientos por cada avion y por clase)
+	- numero_asiento PK (Numero de fila seguido de una letra)
+	?- numero_de_fila
+	?- ubicacion_de_fila
+	- Avion_Asientos_Totales_Por_Clase FK PK
+	- descripcion_asiento
+	
+Plan_Vuelo_Salida
+	- id_plan_salida_vuelo PK
+	- Puerta_Defecto FK
+	- hora
+	- hora_abordaje
+
+Plan_Vuelo_Llegada
+	- id_plan_vuelo_llegada PK
+	- Puerta_defecto
+	- hora
+	
+Plan_Vuelo
+	- codigo_plan_vuelo PK
+	- Tipo_Avion FK
+	- distancia_millas
+	- Plan_Vuelo_Salida FK
+	- Plan_Vuelo_Llegada FK
+	--- Dias
+	--- Precios (Plan_Vuelo_Precio)
+	--- Clases
+
+Plan_Vuelo_Temporal
+	- Plan_Vuelo FK PK
+	- fecha_inicio
+	- fecha_fin
+	- estado (habilitado, inhabilitado)
+
+Plan_Vuelo_Precio
+	- id_vuelo_precio PK
+	- Plan_Vuelo FK
+	- precio
+	- descripcion_precio
+	
+Plan_Vuelo_Dias
+	//- id_plan_vuelo_dias PK
+	- Plan_Vuelo FK PK
+	- dia PK
+	
+Clase_Plan_Vuelo
+	- id_clase_plan_vuelo PK
+	- Clase FK
+	- Plan_Vuelo FK (si hay o 0 si es general)
+
+Vuelo
+	- id_plan_vuelo PK
+	- Plan_Vuelo FK
+	- fecha	
+	- Avion FK
+	- hora_real_despegue
+	- hora_real_aterrizaje
+	--- Asientos_disponibles
+	--- existencias alimentos
+	--- Pasajeros
+	--- Personal	
+	
+Alimento_Vuelo
+	- id_alimento_vuelo PK
+	- Alimento_Avion FK
+	- Vuelo FK
+	- existencias (por cada compra baja una unidad)	
+	
+Ingrediente_Vuelo	
+	- id_alimento_vuelo PK
+	- Ingrediente FK
+	- Vuelo FK
+	- existencias (por cada ingrediente hay existencias)	
+
+Control_Vuelo
+	- id_control_vuelo PK
+	- estado (apreparando, abordaje, despegue, vuelo, aterrizaje, desbordaje, finalizado)
+	- dia
+	- hora
+	- Vuelo FK
+
+Vuelo_Asientos_Disponibles
+	- id_vuelo_asientos_disponible PK
+	- Vuelo FK
+	- Avion_Asientos_Registro_Unidad FK
+	- estado (disponible, reservado)
+
+Admin
+	- username PK
+	- password
+	- nombre_completo
+	- fecha_nacimiento
+
+Persona
+	- CUI PK
+	- nombre_completo
+	- fecha_nacimiento
+	- genero
+	--- Documentos_Identificacion
+	--- Nacionalidades
+	+++ Contactos
+	+++ Metodos_pago
+
+Continente
+	- nombre_continente PK
+	- descripcion_continente
+
+Pais
+	- nombre_pais PK
+	- Continente FK	
+	- descripcion_pais
+
+Nacionalidad
+	- Persona PK FK
+	- Pais    PK FK
+
+Documento_Identificacion
+	- id_identificacion PK
+	- tipo_documento
+	- pais_documento FK
+	- documento_pdf
+	- fecha_caducidad_documento
+	- Persona FK
+
+Contacto
+	- id_contacto
+	- tipo_contacto (telefono, correo)
+	- valor_contacto (telefono, correo) 
+	- Persona FK
+	
+Metodo_Pago
+	- BIN_tarjeta PK
+	- marca_internacional (VISA, MasterCard, etc)
+	- tipo_metodo_pago (crédito, débito)
+	- CVV
+	- fecha_caducidad_tarjeta
+	- nombre_titular_tarjeta
+	- Persona FK
+	
+Tipo_Cuenta (normal, oro, platino)
+	- tipo_cuenta PK
+	- milla_por_dolar (1, 1.5, 2)
+	- porcentaje_milla_cubre (25, 50, 100)
+	- pelicula_cortesia (si, no)
+	- peso_maleta_documentada
+	
+Cuenta_Usuario (compra boletos)
+	- id_cuenta_usuario PK
+	- Persona FK
+	- username
+	- password
+	- historial_millas --> total_millas
+	- millas_disponibles
+	- Tipo_Cuenta FK
+
+Boleto 
+	- id_boleto PK
+	- precio_base
+	- precio_extra (cuando se agotan los ultimos X boletos)
+	- Clase_Plan_Vuelo FK
+	- Vuelo FK
+	- estado (disponible o no)
+	- Vuelo_Asientos_Disponibles FK
+
+Compra_Boleto (1:M para los 2 tipos de compra)
+	- Boleto PK FK
+	- fecha_compra_registrada_sistema
+	+ fecha_cancelacion_sistema
+	+ fecha_modificacion_sistema
+	- precio_inicial
+	- precio_final
+	- estado_compra (activo, cancelado, reasignado)
+	- aplica_ida_vuelta (si, no)
+	+ Cuenta_Usuario FK (si la compra es manual es nulo)
+	--- Descripcion_Compra_Boleto
+	--- Preferencias
+	--- Descuentos
+
+Descripcion_Compra_Boleto
+Preferencias
+
+Descuentos
+	- id_descuento
+	- Compra_Boleto FK
+	- descuento_cantidad
+	- descripcion_descuento
+
+Compra_Boleto_Cuenta
+	- Compra_Boleto FK PK
+	- Cuenta_Usuario FK 
+	
+Compra_Boleto_Manual
+	- Compra_Boleto FK PK
+	-----Datos de usuario temporal
+	+ codigo_cliente_frecuente
+	- nombre_completo
+	- genero
+	- fecha_nacimiento
+	- pais_pasaporte
+	- numero_pasaporte
+	- fecha_caducidad_pasaporte 
+	- BIN_tarjeta
+	- marca_internacional
+	- tipo_metodo_pago
+	- CVV
+	- fecha_caducidad_tarjeta
+	- nombre_titular_tarjeta
+
+Pasajero (solo viaja, un pasajero es una persona con un boleto para un vuelo)
+	- id_pasajero
+	- Persona FK	
+	- Boleto FK
+	- estado_viaje (activo, finalizado)
+	
+Costo_General_Supervisor_Asignado_Menino
+	- id_costo_general_supervisor_asignado PK
+	- precio_general_supervisor_asignado
+	- hora
+	- fecha_inicio
+	+ fecha_fin
+	- Admin FK
+	
+Costo_General_Carga
+	- id_costo_general_carga
+	- tipo_carga (zona carga, animal en cabina, maleta documentada, etc)
+	- precio_general_carga
+	- rango_peso_inicio
+	- rango_peso_fin
+	- hora
+	- fecha_inicio
+	+ fecha_fin
+	- Admin FK	
+
+Supervisor_Asignado_Menino (para menores de 16), costo general
+	- Persona FK PK (niño)
+	- Persona FK PK (asafata)
+	- tipo_supervisor (trabajador, personal)
+	- costo_supervisor (si es personal, entonces es 0)
+	? Costo_General_Supervisor_Asignado FK
+		
+Dimension_Equipaje (documentada, de mano)
+	- id_dimension_equipaje PK
+	- tipo_equipaje (de mano, documentada)
+	- dimension_equipaje
+	- peso_equipaje_rango_inicio
+	- peso_equipaje_rango_fin
+	- hora
+	- fecha_inicio (establecida)
+	+ fecha_fin
+	- Admin FK
+
+Cantidad_General_Maleta_Max_Por_Boleto
+	- id_cantidad_max_boleto PK
+	- cantidad_max_maletas
+	- hora
+	- fecha_inicio
+	+ fecha_fin
+	- Admin FK
+	
+Costo_General_Maleta_Extra (primera, segunda, tercera, etc.... maleta)
+	- id_costo_general_maleta_extra PK
+	- numero_maleta
+	- precio_maleta
+	- hora
+	- fecha_inicio
+	+ fecha_fin
+	- Admin FK	
+
+Equipaje
+	- id_equipaje PK
+	- tipo_equipaje
+	- Pasajero FK
+	- precio (de mano 0)
+	
+Equipaje_Mano
+	- Equipaje FK PK
+	- detalle_equipaje_mano
+	- dimension_equpaje_mano (debe cumplir dimensiones del administrador)
+	
+Maleta_Documentada
+	- Equipaje FK PK
+	- detalle_maleta_documentada
+	- peso_maleta_documentada
+	- dimension_maleta (dimension cumplida)
+	- Costo_General_Maleta_Extra FK (precios)
+	- descripcion_precio
+
+Animal
+	- id_animal PK
+	- nombre_animal
+	- especie
+	- descripcion_animal
+	- peso_animal
+	- peso_jaula
+	--- Vacunas
+	--- Certificados
+	
+Certificado
+	- id_certificado PK
+	- fecha_inicio_certificacion
+	- fecha_expiracion_certificacion
+	- codigo_veterinario FK?
+	- Animal FK 
+	
+Vacuna
+	- id_vacuna PK
+	- fecha_vacunacion
+	- fecha_expiracion
+	- Animal FK
+
+Supervisor_Animal
+	- Animal FK (Animal)
+	- Persona/Pasajero FK (supervisor mayor a 16)
+	- costo_supervisor_animal
+	- descripcion_costo_supervisor_animal
+	? Costo_General_Animal_Cabina (si es menor se le cobra extra por cabina)
+	? costo_por_carga (si es mayor se envia a la zona de carga)
+
+Zona_Carga
+	- id_zona_carga PK
+	- tipo_carga
+	- peso_carga
+	- Pasajero FK
+	- Costo_General_Carga FK ?
+	+ Animal FK (si es un animal tendra valor)
+	- descripcion_carga
+
+Aseguranza
+	- id_aseguranza PK
+	- Boleto FK
+	- cuota_aseguranza
+	- porcentaje_reposicion
+	- fecha_compra
+
+------------------------
+Compras_Abordo
+	--- Peliculas
+	--- Wifi
+	
+Costo_Global_Conexion_Wifi
+	- id_costo_global_wifi	
+	- costo_global_wifi
+	- hora
+	- fecha_inicio (establecida)
+	+ fecha_fin (cuando deja de funcioar)
+	- Admin FK (el que lo modifica)
+
+Pelicula
+	- id_pelicula PK
+	- titulo_distribucion
+	- titulo_original
+	- genero_pelicula
+	- idioma_original
+	- subtitulada_espaniol (si, no)
+	- pais_origen
+	- anio_produccion
+	- duracion
+	- calificacion
+	- fecha_estreno
+	- resumen
+	- precio_renta_aerolinea
+	- precio_renta_pasajeros
+	
+Renta_Pelicula
+	- Pelicula FK PK
+	- Pasajero FK PK
+	- fecha_compra PK
+	- hora_compra
+	- precio_pagado	
+
+Wifi
+	- id_wifi PK
+	- ssid_wifi
+	- seguridad
+	- estado
+	- proxy
+	- configuracion_ip
+	- mascara_red
+	- puerta_enlace
+	- ip
+	- password (es posible que cambie por vuelo)
+	- Avion FK
+	
+Compra_Wifi
+	- Wifi FK PK
+	- Cuenta_Usuario FK PK
+	- fecha_compra PK
+	- hora_compra
+	- precio
+	
+Personal
+	- tipo_personal (a bordo, no a bordo)
+	- puesto
+	- salario_por_hora
+	- estado_personal ()
+	- Persona FK PK
+	- fecha_contratacion
+	+ comisiones (solo abordo)
+	+ experiencia (tiempo en años, solo abordo)
+	
+Tiempo_Personal (tiempo de trabajo)
+	- id_tiempo_personal
+	- Personal FK
+	- hora_inicio_trabajo
+	- hora_fin_trabajo
+	- fecha
+	- estado (enfermo, vacaciones, trabajo)
+
+Vuelo_Personal
+	- Vuelo FK PK
+	- Personal FK PK
+	
+Encuesta
+	- Pasajero PK FK
+	- calificacion_comida
+	- calificacion_servicio
+	- calificacion_vuelo
+	- notas_adicionales
+	
+	
+-- Falta registrar
+- Gasto de millas por hora usuario
+- Compras de varios boletos a la vez
+- Metodo de pago por default
+- Clase generales por todos los vuelos
+- Pagos sueldos personal
+- comisiones por vuelo (Vuelo_Personal)
