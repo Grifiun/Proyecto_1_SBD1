@@ -1,0 +1,167 @@
+ "Aerolinea---" + 
+ "Aeropuerto---" + 
+ "Puerta_Defecto---" + 
+ "Clase---" + 
+ "Precio_Clase---" + 
+ "Avion---" + 
+ "Alimento---" + 
+ "Alimento_Ingrediente---" + 
+ "Ingrediente---" + 
+ "Alimento_Clase---" + 
+ "Tipo_Avion---" + 
+ "Avion_Asientos_Totales_Por_Clase---" + 
+ "Alimento_Avion---" + 
+ "Plan_Vuelo_Salida---" + 
+ "Plan_Vuelo_Llegada---" + 
+ "Plan_Vuelo---" + 
+ "Plan_Vuelo_Temporal---" + 
+ "Plan_Vuelo_Precio---" + 
+ "Plan_Vuelo_Dias---" + 
+ "Vuelo---" + 
+ "Alimento_Vuelo---" + 
+ "Ingrediente_Vuelo---" + 
+ "Control_Vuelo---" + 
+ "Avion_Asientos_Registro_Unidad---" + 
+ "Vuelo_Asiento_Disponible---" + 
+ "Continente---" + 
+ "Pais---" + 
+ "Persona---" + 
+ "Nacionalidad---" + 
+ "Documento_Identificacion---" + 
+ "Contacto---" + 
+ "Metodo_Pago---" + 
+ "Tipo_Cuenta---" + 
+ "Cuenta_Usuario---" + 
+ "Boleto---" + 
+ "Compra_Boleto---" + 
+ "Descripcion_Compra_Boleto---" + 
+ "Admin---" + 
+ "Compra_Boleto_Manual---" + 
+ "Pasajero---" + 
+ "Costo_General_Supervisor_Asignado_Menino---" + 
+ "Costo_General_Carga---" + 
+ "Supervisor_Asignado_Menino---" + 
+ "Dimension_Equipaje---" + 
+ "Cantidad_General_Maleta_Max_Por_Boleto---" + 
+ "Costo_General_Maleta_Extra---" + 
+ "Equipaje---" + 
+ "Equipaje_Mano---" + 
+ "Maleta_Documentada---" + 
+ "Animal---" + 
+ "Certificado---" + 
+ "Vacuna---" + 
+ "Supervisor_Animal---" + 
+ "Zona_Carga---" + 
+ "Beneficio_Tipo_Cuenta---" + 
+ "Aseguranza---" + 
+ "Costo_Global_Conexion_Wifi---" + 
+ "Pelicula---" + 
+ "Wifi---" + 
+ "Renta_Pelicula---" + 
+ "Compra_Wifi---" + 
+ "Encuesta---" + 
+ "Personal---" + 
+ "Vuelo_Personal---" + 
+ "Tiempo_Personal---" + 
+ "Descripcion_Facturacion---" + 
+ "Facturacion---" + 
+ "Compra_Comida_Pasajero
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ /******************************************************************************
+
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+
+public class Main
+{
+	public static void main(String[] args) {
+	    String tablas =  "Aerolinea---" + 
+ "Aeropuerto---" + 
+ "Puerta_Defecto---" + 
+ "Clase---" + 
+ "Precio_Clase---" + 
+ "Avion---" + 
+ "Alimento---" + 
+ "Alimento_Ingrediente---" + 
+ "Ingrediente---" + 
+ "Alimento_Clase---" + 
+ "Tipo_Avion---" + 
+ "Avion_Asientos_Totales_Por_Clase---" + 
+ "Alimento_Avion---" + 
+ "Plan_Vuelo_Salida---" + 
+ "Plan_Vuelo_Llegada---" + 
+ "Plan_Vuelo---" + 
+ "Plan_Vuelo_Temporal---" + 
+ "Plan_Vuelo_Precio---" + 
+ "Plan_Vuelo_Dias---" + 
+ "Vuelo---" + 
+ "Alimento_Vuelo---" + 
+ "Ingrediente_Vuelo---" + 
+ "Control_Vuelo---" + 
+ "Avion_Asientos_Registro_Unidad---" + 
+ "Vuelo_Asiento_Disponible---" + 
+ "Continente---" + 
+ "Pais---" + 
+ "Persona---" + 
+ "Nacionalidad---" + 
+ "Documento_Identificacion---" + 
+ "Contacto---" + 
+ "Metodo_Pago---" + 
+ "Tipo_Cuenta---" + 
+ "Cuenta_Usuario---" + 
+ "Boleto---" + 
+ "Compra_Boleto---" + 
+ "Descripcion_Compra_Boleto---" + 
+ "Admin---" + 
+ "Compra_Boleto_Manual---" + 
+ "Pasajero---" + 
+ "Costo_General_Supervisor_Asignado_Menino---" + 
+ "Costo_General_Carga---" + 
+ "Supervisor_Asignado_Menino---" + 
+ "Dimension_Equipaje---" + 
+ "Cantidad_General_Maleta_Max_Por_Boleto---" + 
+ "Costo_General_Maleta_Extra---" + 
+ "Equipaje---" + 
+ "Equipaje_Mano---" + 
+ "Maleta_Documentada---" + 
+ "Animal---" + 
+ "Certificado---" + 
+ "Vacuna---" + 
+ "Supervisor_Animal---" + 
+ "Zona_Carga---" + 
+ "Beneficio_Tipo_Cuenta---" + 
+ "Aseguranza---" + 
+ "Costo_Global_Conexion_Wifi---" + 
+ "Pelicula---" + 
+ "Wifi---" + 
+ "Renta_Pelicula---" + 
+ "Compra_Wifi---" + 
+ "Encuesta---" + 
+ "Personal---" + 
+ "Vuelo_Personal---" + 
+ "Tiempo_Personal---" + 
+ "Descripcion_Facturacion---" + 
+ "Facturacion---" + 
+ "Compra_Comida_Pasajero";
+ 
+    String[] listadoTablas = tablas.split("---");
+    
+    for(int  i = 0; i < listadoTablas.length; i++){
+        
+        System.out.println("SELECT table_name, column_name, data_type FROM information_schema.columns WHERE table_name = '" + listadoTablas[i]+  "';" );
+    }
+	}
+}
+
